@@ -41,7 +41,7 @@
 #define PITCH 0
 #define ROLL 1
 
-union btn{
+typedef union btn{
     struct {
         uint8_t up : 1;
         uint8_t down : 1;
@@ -63,12 +63,14 @@ union btn{
     uint16_t all;
 }__attribute__((packed));
 
-union PS4data {
+typedef union PS4data {
     struct {
         uint8_t stick[4];
         union btn button;
         uint8_t trigger[2];
-        uint8_t jyroangle[2];
+        uint8_t state;
+        uint8_t blank;
+        //uint8_t jyroangle[2];
     }__attribute__((packed));
     uint8_t data[10];
 }__attribute__((packed));
@@ -111,9 +113,12 @@ public :
     bool getButton(uint8_t n); //! ボタンの値を返す。
     int16_t getStick(uint8_t n); //! スティックの値を返す。中心を0,範囲は-128 ~ 128とする。
     int16_t getTrigger(uint8_t n); //! トリガーの値を返す。
-    int16_t getAngle(uint8_t n); //! ジャイロの値を返す。
+    uint8_t getState();
+    //int16_t getAngle(uint8_t n); //! ジャイロの値を返す。
     uint8_t getTimeout();
     bool getStatus();
+
+    union PS4data ps4;    //! コントローラのデータを格納する変数
     
 
 private :
@@ -124,7 +129,7 @@ private :
     uint8_t timeout;      //! 0.1秒間通信が成功していないと1増える
     uint8_t indexofR;     //! RBNの先頭文字の位置
     bool status;          //! (TIMEOUT_COUNT * 0.1)秒間通信が成り立っていない場合、false
-    union PS4data ps4;    //! コントローラのデータを格納する変数
+    
 };
 
 #endif
