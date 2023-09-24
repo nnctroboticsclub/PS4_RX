@@ -91,10 +91,16 @@ int16_t PS4::getTrigger(uint8_t n)
 {
     return ps4.trigger[n];
 }
-
+/*
 int16_t PS4::getAngle(uint8_t n)
 {
     return ps4.jyroangle[n];
+}
+*/
+
+uint8_t PS4::getState()
+{
+    return ps4.state;
 }
 
 bool PS4::getStatus()
